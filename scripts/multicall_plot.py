@@ -16,14 +16,9 @@ def main():
     latest_round = price_feed.latestRoundData()[0]
     decimals = price_feed.decimals()
 
-    answers = []
-    timestamps = []
+    answers, timestamps = [], []
 
-    multicall(
-        address=getenv('MULTICALL_ADDRESS'),
-    )
-
-    with multicall:
+    with multicall(address=getenv('MULTICALL_ADDRESS')):
         for i in range(latest_round, latest_round - 50, -1):
             answers.append(price_feed.getRoundData(i)[1] / 10 ** decimals)
             timestamps.append(datetime.fromtimestamp(price_feed.getRoundData(i)[3]))

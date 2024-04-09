@@ -10,14 +10,11 @@ def main():
         abi=interface.AggregatorV3Interface.abi
         )
     
-    rounds = []
     latest_round = price_feed.latestRoundData()[0]
+    
+    rounds = []
 
-    multicall(
-        address=getenv('MULTICALL_ADDRESS'),
-    )
-
-    with multicall:
+    with multicall(address=getenv('MULTICALL_ADDRESS')):
         for i in range(latest_round, latest_round - 50, -1):
             rounds.append(price_feed.getRoundData(i))
 
